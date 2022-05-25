@@ -1,5 +1,15 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+using System.Text.RegularExpressions;
+
+
+Console.WriteLine("Digite um numero Romano: ");
+string entrada = Console.ReadLine();
+var resultado = 0;
+
+if (string.IsNullOrWhiteSpace(entrada))
+    throw new ArgumentException(null, nameof(entrada));
+
+Regex rx = new Regex(@"\bM{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b");
 
 var romanos = new Dictionary<string, int>();
 
@@ -11,17 +21,18 @@ romanos.Add("C", 100);
 romanos.Add("D", 500);
 romanos.Add("M", 1000);
 
-Console.WriteLine("Digite um numero Romano: ");
-string entrada = Console.ReadLine();
-
 var letrasEntrada = entrada.Substring(0);
-var resultado = 0;
+
+
 
 for (int i = 0; i < letrasEntrada.Length; i++)
 {
-    if (romanos.ContainsKey(letrasEntrada[i].ToString()))
+    if (!rx.Match(entrada).Success || !romanos.ContainsKey(letrasEntrada[i].ToString()))
     {
-      
+        Console.WriteLine("Número Inválido!");
+    }
+    else
+    {
         if ((letrasEntrada[i].Equals('I') && letrasEntrada[i + 1].Equals('V')) || 
             (letrasEntrada[i].Equals('I') && letrasEntrada[i + 1].Equals('X')) ||
             (letrasEntrada[i].Equals('X') && letrasEntrada[i + 1].Equals('L')) ||
@@ -30,8 +41,6 @@ for (int i = 0; i < letrasEntrada.Length; i++)
             (letrasEntrada[i].Equals('C') && letrasEntrada[i + 1].Equals('M'))
             )
         {
-            Console.WriteLine($"letra atual:{letrasEntrada[i]} ");
-            Console.WriteLine($"Proxima letra:{letrasEntrada[i + 1]} ");
             resultado += (romanos[letrasEntrada[i+1].ToString()]) - (romanos[letrasEntrada[i].ToString()]);
             i++;
 
@@ -41,7 +50,8 @@ for (int i = 0; i < letrasEntrada.Length; i++)
            resultado += romanos[letrasEntrada[i].ToString()];
 
         }
-
+    
+    
         /*   for (int verificaRomano = 0; verificaRomano < 6 ; verificaRomano++)
            //foreach (string numeroR in romanos.Keys)
             {
@@ -54,17 +64,19 @@ for (int i = 0; i < letrasEntrada.Length; i++)
                }  
 
 
-            }*/
+            }
 
-    }else
-    {
-        Console.WriteLine("Contém um ou mais caracteres que não fazem parte do número Romano.");
-        break;
+        /else
+        {
+            Console.WriteLine("Contém um ou mais caracteres que não fazem parte do número Romano.");
+            break;
+        }*/
+
     }
-    
+
 }
 if (resultado > 0)
 {
-    Console.WriteLine($"CONVERSÃO MAL SUCEDIDA: O numero romano {entrada} é {resultado} no padrão inteiro");
+    Console.WriteLine($"CONVERSÃO BEM SUCEDIDA: O numero romano {entrada} é {resultado} no padrão inteiro");
 }
 
