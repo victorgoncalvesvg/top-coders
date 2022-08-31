@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 
 Console.WriteLine("Digite um numero Romano: ");
-string entrada = Console.ReadLine();
+string entrada = Console.ReadLine().ToUpper();
 var resultado = 0;
 
 if (string.IsNullOrWhiteSpace(entrada))
